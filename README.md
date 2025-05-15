@@ -72,7 +72,58 @@ User authentication mechanisms are essential to ensure secure and authorized acc
 Client-server chat applications are versatile tools that facilitate real-time communication between users over a network. They incorporate various components, including server-side and client-side elements, and must consider factors such as security, scalability, and concurrency. As technology continues to advance, client-server chat applications remain integral for collaborative communication in various domains.
 
 Client-server chat applications are foundational to real-time communication over networks. They incorporate principles of socket programming, communication protocols, and security mechanisms to provide a seamless user experience. Understanding the basics of client-server chat applications is essential for developers involved in networked application development, as they form the backbone of various collaborative communication systems. As technology evolves, chat applications continue to adapt, incorporating new features and technologies to enhance user interaction and connectivity.
+##server.py
+```
+import socket
 
+s = socket.socket()
+
+s.bind(('localhost', 8000))
+
+s.listen(5)
+print("Server listening for connections...")
+
+c, addr = s.accept()
+print(f"Connection established with {addr}")
+
+while True:
+  data = c.recv(1024).decode() 
+  if not data: 
+      break
+  print(f"Received: {data}") 
+  c.send(input("Enter Data:").encode())
+
+c.close()  
+```
+##client.py
+```
+import socket
+
+s = socket.socket()
+
+s.connect(('localhost', 8000))
+
+while True:
+  data = input("Enter a data: ")  
+  if not data: 
+      break
+  s.send(data.encode()) 
+
+  ack = s.recv(1024).decode()  
+  if ack:
+      print(f"Received: {ack}") 
+  else:
+      print("No acknowledgement, closing connection")
+      break
+
+s.close() 
+
+```
+## Output:Server
+![image](https://github.com/user-attachments/assets/fe26ec28-c7ac-453b-b1ce-82dcafde192c)
+
+## Output:Client
+![image](https://github.com/user-attachments/assets/d1dacbec-7e97-489e-b3ea-a3dc5da67f93)
 
 ## Result:
 
